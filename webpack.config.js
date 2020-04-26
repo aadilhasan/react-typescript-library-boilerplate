@@ -23,12 +23,16 @@ const output = isDevelopment
 module.exports = {
   mode: process.env.NODE_ENV || "production",
   // Enable sourcemaps for debugging webpack's output.
-  devtool: "source-map",
+  devtool: isDevelopment ? "source-map" : false,
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: [".ts", ".tsx", ".js", ".css", ".scss", ".module.scss"],
   },
-  plugins: [new MiniCssExtractPlugin()],
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "index.css",
+    }),
+  ],
   module: {
     rules: [
       {
@@ -83,7 +87,7 @@ module.exports = {
         test: /\.css$/,
         loader: [
           isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
-          "css-loader"
+          "css-loader",
         ],
       },
     ],
